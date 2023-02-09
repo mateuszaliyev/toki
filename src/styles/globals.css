@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  #__next {
+    display: contents;
+  }
+
+  ::-webkit-scrollbar {
+    width: theme("spacing[2.5]");
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: theme("colors.gray.400");
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme("colors.gray.900");
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: theme("colors.gray.100");
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: theme("colors.gray.800");
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: theme("colors.gray.100");
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background-color: theme("colors.gray.900");
+  }
+}
