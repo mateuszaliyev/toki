@@ -1,4 +1,4 @@
-import { Fragment, HTMLAttributes } from "react";
+import { Fragment, type HTMLAttributes } from "react";
 import type { IconType } from "react-icons";
 import { IoTriangleSharp } from "react-icons/io5";
 

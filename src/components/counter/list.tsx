@@ -5,7 +5,7 @@ import { Button } from "@/components/button";
 
 import {
   COUNTER_STORE_LATEST_VERSION,
-  CounterStoreStorage,
+  type CounterStoreStorage,
   useCounter,
   useCounterActions,
   useCounters,

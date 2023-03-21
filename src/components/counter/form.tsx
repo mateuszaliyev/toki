@@ -233,7 +233,7 @@ export const CounterForm = <EditSelected extends boolean>({
                       {figuresValues[index].name || "Nowa powiązana wartość"}
                     </h3>
                     <Button
-                      className="text-red-500"
+                      className="text-red-500 hover:text-current"
                       icon={MdDelete}
                       onClick={() => figures.remove(index)}
                       type="button"
@@ -344,7 +344,7 @@ export const CounterForm = <EditSelected extends boolean>({
                       )}
                     </time>
                     <Button
-                      className="text-red-500"
+                      className="text-red-500 hover:text-current"
                       icon={MdDelete}
                       onClick={() => milestones.remove(index)}
                       type="button"

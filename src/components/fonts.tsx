@@ -1,6 +1,5 @@
+import localFont from "next/font/local";
 import Head from "next/head";
-
-import localFont from "@next/font/local";
 
 const supreme = localFont({
   src: "../../public/assets/fonts/supreme/supreme-variable.woff2",

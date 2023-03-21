@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 import type { IconType } from "react-icons";
 
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   Omit<VariantProps<typeof button>, "disabled"> & {

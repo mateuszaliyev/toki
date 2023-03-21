@@ -1,4 +1,4 @@
-import { Unit } from "@/types";
+import type { Unit } from "@/types";
 
 export type PolishPluralRule = Extract<
   Intl.LDMLPluralRule,
@@ -84,7 +84,8 @@ export const dateFormatters: Record<Unit, (value: number) => string> = {
 };
 
 export const formatTheme = (theme?: string) => {
-  if (theme === "light") return "Jasny";
   if (theme === "dark") return "Ciemny";
-  return "Systemowy";
+  if (theme === "light") return "Jasny";
+  if (theme === "pink") return "Różowy";
+  if (theme === "system") return "Systemowy";
 };

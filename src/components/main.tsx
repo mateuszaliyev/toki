@@ -2,19 +2,13 @@ import { CounterForm } from "@/components/counter/form";
 import { CounterList } from "@/components/counter/list";
 import { CounterView } from "@/components/counter/view";
 
-import { useHeaderHeight, useView } from "@/hooks/store";
+import { useView } from "@/hooks/store";
 
 export const Main = () => {
-  const { headerHeight } = useHeaderHeight();
   const { view } = useView();
 
   return (
-    <main
-      className="flex flex-grow flex-col"
-      style={{
-        marginTop: headerHeight,
-      }}
-    >
+    <main className="mt-16 flex flex-grow flex-col lg:mt-32">
       {view === "create" && <CounterForm />}
       {view === "counter" && <CounterView />}
       {view === "edit" && <CounterForm editSelected />}

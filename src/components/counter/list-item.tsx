@@ -76,7 +76,7 @@ export const CounterListItem = ({
           Edytuj
         </Button>
         <Button
-          className="text-red-500"
+          className="text-red-500 hover:text-current"
           icon={MdDelete}
           onClick={() => deleteCounter(counter.id)}
         >

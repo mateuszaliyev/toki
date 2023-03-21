@@ -11,16 +11,18 @@ const Main = dynamic(
   { ssr: false }
 );
 
-const HomePage = () => {
-  return (
-    <>
-      <Head>
-        <title>時 toki</title>
-      </Head>
-      <Header />
-      <Main />
-    </>
-  );
-};
+const HomePage = () => (
+  <>
+    <Head>
+      <meta
+        content="max-image-preview:none,noarchive,none,noimageindex,nositelinkssearchboxx,nosnippet,notranslate"
+        name="robots"
+      />
+      <title>時 toki</title>
+    </Head>
+    <Header />
+    <Main />
+  </>
+);
 
 export default HomePage;
