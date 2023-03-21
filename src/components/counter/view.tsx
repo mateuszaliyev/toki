@@ -1,6 +1,7 @@
 import { ListItem } from "@/components/list/item";
 
 import { useCounter } from "@/hooks/counter";
+import { useMediaQuery } from "@/hooks/media-query";
 
 import { dateFormatters, formatDate, POLISH_LOCALE } from "@/i18n/polish";
 
@@ -13,23 +14,26 @@ import { MilestoneProgress } from "./milestone-progress";
 export const CounterView = () => {
   const counter = useCounter();
 
-  return counter ? (
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
+  if (!counter) return null;
+
+  return (
     <>
-      <section className="relative -mt-40 flex min-h-screen flex-grow flex-col justify-center gap-8 px-10">
-        <h1 className="flex h-32 items-center justify-center text-8xl">
-          {counter.name}
-        </h1>
-        <Counter bordered timestamp={counter.timestamp} />
+      <section className="flex flex-grow flex-col justify-center gap-8 p-10">
+        <Counter
+          bordered={isDesktop}
+          size={isDesktop ? "large" : "small"}
+          timestamp={counter.timestamp}
+        />
       </section>
-      {counter.milestones.length > 0 ? (
-        <section className="flex flex-grow flex-col justify-center gap-8 px-10 pb-10">
-          <h2 className={heading({ size: "large", tall: true })}>
-            Kamienie milowe
-          </h2>
-          <ul>
+      <section className="grid grid-cols-1 gap-10 px-4 lg:grid-cols-2 lg:px-10">
+        <div>
+          <h2 className={heading({ size: "medium" })}>Kamienie milowe</h2>
+          <ul className="py-10">
             {counter.milestones.map((milestone) => (
               <ListItem
-                borders="all"
+                borders="vertical"
                 className="flex flex-col gap-8"
                 key={milestone.id}
               >
@@ -39,7 +43,7 @@ export const CounterView = () => {
                   </h3>
                   <time>{formatDate(milestone.timestamp, "long")}</time>
                 </div>
-                <Counter timestamp={milestone.timestamp} />
+                <Counter size="small" timestamp={milestone.timestamp} />
                 <MilestoneProgress
                   milestone={milestone}
                   timestamp={counter.timestamp}
@@ -47,14 +51,10 @@ export const CounterView = () => {
               </ListItem>
             ))}
           </ul>
-        </section>
-      ) : null}
-      {counter.figures.length > 0 ? (
-        <section className="flex flex-grow flex-col justify-center gap-8 px-10 pb-10">
-          <h2 className={heading({ size: "large", tall: true })}>
-            Powiązane wartości
-          </h2>
-          <ul>
+        </div>
+        <div>
+          <h2 className={heading({ size: "medium" })}>Powiązane wartości</h2>
+          <ul className="py-10">
             {counter.figures.map((figure) => (
               <ListItem
                 borders="vertical"
@@ -74,8 +74,8 @@ export const CounterView = () => {
               </ListItem>
             ))}
           </ul>
-        </section>
-      ) : null}
+        </div>
+      </section>
     </>
-  ) : null;
+  );
 };

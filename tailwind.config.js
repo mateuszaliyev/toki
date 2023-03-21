@@ -10,12 +10,12 @@ const tailwindCssConfig = {
     colors: {
       ...colors,
       gray: {
-        100: "#e2fcfc",
-        300: "#cee5e5",
-        400: "#aabebe",
-        600: "#555f5f",
-        800: "#2b2f2f",
-        900: "#0e1010",
+        100: "rgb(var(--color-gray-100) / <alpha-value>)",
+        300: "rgb(var(--color-gray-300) / <alpha-value>)",
+        400: "rgb(var(--color-gray-400) / <alpha-value>)",
+        600: "rgb(var(--color-gray-600) / <alpha-value>)",
+        800: "rgb(var(--color-gray-800) / <alpha-value>)",
+        900: "rgb(var(--color-gray-900) / <alpha-value>)",
       },
     },
     extend: {
@@ -31,10 +31,14 @@ const tailwindCssConfig = {
           "100%": { opacity: "1" },
         },
       },
+      spacing: {
+        header: "8rem",
+      },
     },
     zIndex: {
       header: "5",
       "list-item": "1",
+      navigation: "6",
       "select-button": "4",
       "select-button-inactive": "2",
       "select-options": "3",

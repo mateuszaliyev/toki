@@ -12,12 +12,14 @@ import { CounterSegment, type CounterSegmentProps } from "./segment";
 
 export type CounterProps = TimeHTMLAttributes<HTMLTimeElement> & {
   bordered?: CounterSegmentProps["bordered"];
+  size?: CounterSegmentProps["size"];
   timestamp: number;
 };
 
 export const Counter = ({
   bordered,
   className,
+  size,
   timestamp,
   ...props
 }: CounterProps) => {
@@ -25,16 +27,14 @@ export const Counter = ({
 
   return (
     <time
-      className={cx(
-        "flex items-center justify-center gap-4 text-7xl",
-        className
-      )}
+      className={cx("flex items-center justify-center gap-4", className)}
       {...props}
     >
       {Object.entries(duration).map(([key, value]) => (
         <CounterSegment
           bordered={bordered}
           key={key}
+          size={size}
           unit={dateFormatters[key as Unit](value).toLocaleLowerCase(
             POLISH_LOCALE
           )}

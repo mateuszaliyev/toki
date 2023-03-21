@@ -58,7 +58,7 @@ export const useCounterStore = create<CounterStore>()(
     immer((set, get) => ({
       counters: [
         {
-          createdAt: 1675980755810,
+          createdAt: Date.now(),
           figures: [
             {
               id: "mYvPzLuks0Ia7s26M_smI",
@@ -79,13 +79,15 @@ export const useCounterStore = create<CounterStore>()(
           milestones: [
             {
               id: "QNsxEH0gU5ZLVzA7KNPy5",
-              name: "2024",
-              timestamp: 1704063600000,
+              name: `${new Date().getFullYear() + 1}`,
+              timestamp: new Date(
+                `${new Date().getFullYear() + 1}-01-01`
+              ).getTime(),
             },
           ],
-          name: "2023",
-          timestamp: 1672527600000,
-          updatedAt: 1675980839092,
+          name: `${new Date().getFullYear()}`,
+          timestamp: new Date(`${new Date().getFullYear()}-01-01`).getTime(),
+          updatedAt: Date.now(),
         },
       ],
       createCounter: ({ figures, milestones, name, timestamp }) =>
@@ -151,68 +153,84 @@ export const useCounterStore = create<CounterStore>()(
 
           if (counterIndex === -1) return;
 
-          figures?.forEach((figure) => {
-            if (
-              !figure.id &&
-              figure.name &&
-              figure.quantity &&
-              figure.unit &&
-              figure.value
-            ) {
-              state.counters[counterIndex].figures.push({
-                ...(figure as Omit<Figure, "id">),
-                id: generateId(),
-              });
-              return;
-            }
-
-            const figureIndex = state.counters[counterIndex].figures.findIndex(
-              ({ id }) => id === figure.id
+          if (figures) {
+            state.counters[counterIndex].figures = state.counters[
+              counterIndex
+            ].figures.filter((figure) =>
+              figures.some(({ id }) => id === figure.id)
             );
 
-            if (figureIndex === -1) return;
+            figures.forEach((figure) => {
+              if (
+                !figure.id &&
+                figure.name &&
+                figure.quantity &&
+                figure.unit &&
+                figure.value
+              ) {
+                state.counters[counterIndex].figures.push({
+                  ...(figure as Omit<Figure, "id">),
+                  id: generateId(),
+                });
+                return;
+              }
 
-            if (figure.name)
-              state.counters[counterIndex].figures[figureIndex].name =
-                figure.name;
+              const figureIndex = state.counters[
+                counterIndex
+              ].figures.findIndex(({ id }) => id === figure.id);
 
-            if (figure.quantity)
-              state.counters[counterIndex].figures[figureIndex].quantity =
-                figure.quantity;
+              if (figureIndex === -1) return;
 
-            if (figure.unit)
-              state.counters[counterIndex].figures[figureIndex].unit =
-                figure.unit;
+              if (figure.name)
+                state.counters[counterIndex].figures[figureIndex].name =
+                  figure.name;
 
-            if (figure.value)
-              state.counters[counterIndex].figures[figureIndex].value =
-                figure.value;
-          });
+              if (figure.quantity)
+                state.counters[counterIndex].figures[figureIndex].quantity =
+                  figure.quantity;
 
-          milestones?.forEach((milestone) => {
-            if (!milestone.id && milestone.name && milestone.timestamp) {
-              state.counters[counterIndex].milestones.push({
-                ...(milestone as Omit<Milestone, "id">),
-                id: generateId(),
-              });
+              if (figure.unit)
+                state.counters[counterIndex].figures[figureIndex].unit =
+                  figure.unit;
 
-              return;
-            }
+              if (figure.value)
+                state.counters[counterIndex].figures[figureIndex].value =
+                  figure.value;
+            });
+          }
 
-            const milestoneIndex = state.counters[
+          if (milestones) {
+            state.counters[counterIndex].milestones = state.counters[
               counterIndex
-            ].milestones.findIndex(({ id }) => id === milestone.id);
+            ].milestones.filter((milestone) =>
+              milestones?.some(({ id }) => id === milestone.id)
+            );
 
-            if (milestoneIndex === -1) return;
+            milestones.forEach((milestone) => {
+              if (!milestone.id && milestone.name && milestone.timestamp) {
+                state.counters[counterIndex].milestones.push({
+                  ...(milestone as Omit<Milestone, "id">),
+                  id: generateId(),
+                });
 
-            if (milestone.name)
-              state.counters[counterIndex].milestones[milestoneIndex].name =
-                milestone.name;
-            if (milestone.timestamp)
-              state.counters[counterIndex].milestones[
-                milestoneIndex
-              ].timestamp = milestone.timestamp;
-          });
+                return;
+              }
+
+              const milestoneIndex = state.counters[
+                counterIndex
+              ].milestones.findIndex(({ id }) => id === milestone.id);
+
+              if (milestoneIndex === -1) return;
+
+              if (milestone.name)
+                state.counters[counterIndex].milestones[milestoneIndex].name =
+                  milestone.name;
+              if (milestone.timestamp)
+                state.counters[counterIndex].milestones[
+                  milestoneIndex
+                ].timestamp = milestone.timestamp;
+            });
+          }
 
           if (name) state.counters[counterIndex].name = name;
           if (timestamp) state.counters[counterIndex].timestamp = timestamp;
