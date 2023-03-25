@@ -14,11 +14,7 @@ const Main = dynamic(
 const HomePage = () => (
   <>
     <Head>
-      <meta
-        content="max-image-preview:none,noarchive,none,noimageindex,nositelinkssearchboxx,nosnippet,notranslate"
-        name="robots"
-      />
-      <title>時 toki</title>
+      <title>toki</title>
     </Head>
     <Header />
     <Main />

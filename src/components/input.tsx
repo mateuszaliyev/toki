@@ -26,7 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input
           className={cx(
-            "flex-grow bg-transparent text-gray-900 outline-none transition placeholder:text-gray-400 placeholder:transition group-hover:placeholder:text-gray-900 dark:text-gray-100 dark:placeholder:text-gray-600 dark:group-hover:placeholder:text-gray-100",
+            "grow bg-transparent pr-2 text-gray-900 outline-none transition placeholder:text-gray-400 placeholder:transition group-hover:placeholder:text-gray-900 dark:text-gray-100 dark:placeholder:text-gray-600 dark:group-hover:placeholder:text-gray-100",
             className
           )}
           ref={ref}

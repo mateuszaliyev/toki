@@ -30,7 +30,7 @@ export const Select = ({
   value,
   ...props
 }: SelectProps) => (
-  <Listbox disabled={disabled} onChange={onChange} value={value}>
+  <Listbox by="value" disabled={disabled} onChange={onChange} value={value}>
     <div className={cx("group relative flex", className)} {...props}>
       <Listbox.Button
         className={cx(
@@ -72,21 +72,42 @@ export const Select = ({
       </Listbox.Button>
       <Transition
         as={Fragment}
-        enter="transition"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+        enter="transition duration-150 ease-in-out"
+        enterFrom="scale-95 opacity-0"
+        enterTo="scale-100 opacity-100"
+        leave="transition duration-150 ease-in-out"
+        leaveFrom="scale-100 opacity-100"
+        leaveTo="scale-95 opacity-0"
       >
-        <Listbox.Options className="absolute top-0 -left-6 z-select-options min-w-[16rem] border border-gray-300 bg-gray-100 p-6 pt-16 outline-none dark:border-gray-800 dark:bg-gray-900">
+        <Listbox.Options className="absolute top-0 -left-6 z-select-options border border-gray-300 bg-gray-100/80 p-6 pt-16 outline-none backdrop-blur dark:border-gray-800 dark:bg-gray-900/50">
           {options.map((option) => (
             <Listbox.Option
-              className="h-8 cursor-pointer"
+              className={({ active, selected }) =>
+                cx(
+                  "flex h-8 cursor-pointer items-center gap-2",
+                  active && selected
+                    ? "text-gray-900 dark:text-gray-100"
+                    : active || selected
+                    ? "text-gray-800 dark:text-gray-300"
+                    : "text-gray-400 dark:text-gray-600"
+                )
+              }
               key={option.value}
               value={option}
             >
-              {option.name}
+              {({ selected }) => (
+                <>
+                  <span
+                    className={cx(
+                      "h-2.5 w-2.5 rounded-full border-2 border-current transition",
+                      selected && "bg-current"
+                    )}
+                  />
+                  <span className="text-gray-900 dark:text-gray-100">
+                    {option.name}
+                  </span>
+                </>
+              )}
             </Listbox.Option>
           ))}
         </Listbox.Options>

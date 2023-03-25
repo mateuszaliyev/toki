@@ -29,7 +29,7 @@ export const Progress = ({ className, value, ...props }: ProgressProps) => (
         className="h-2 bg-gradient-to-r from-gray-100 to-gray-900 dark:from-gray-900 dark:to-gray-100"
         style={{ width: `${Math.max(Math.min(value, 100), 0)}%` }}
       />
-      <div className="h-2 flex-grow bg-gray-300 dark:bg-gray-800" />
+      <div className="h-2 grow bg-gray-300 dark:bg-gray-800" />
     </div>
   </div>
 );

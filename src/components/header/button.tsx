@@ -8,7 +8,7 @@ export type HeaderButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const button = cva(
-  "relative -ml-px border-x font-semibold outline-none transition before:absolute before:bottom-0 before:left-0 before:right-0 before:h-full before:origin-bottom before:bg-gray-900 before:transition after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:translate-y-px after:bg-gray-300 after:transition first:ml-0 hover:after:bg-gray-900 dark:before:bg-gray-100 dark:after:bg-gray-800 dark:hover:after:bg-gray-100",
+  "relative -ml-px border-x font-semibold outline-none transition before:absolute before:bottom-0 before:left-0 before:right-0 before:h-full before:origin-bottom before:bg-gray-900 before:transition after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:translate-y-px after:bg-gray-300 after:transition first:ml-0 hover:after:bg-gray-900 focus-visible:after:bg-gray-900 dark:before:bg-gray-100 dark:after:bg-gray-800 dark:hover:after:bg-gray-100 dark:focus-visible:after:bg-gray-100",
   {
     defaultVariants: {
       borders: true,

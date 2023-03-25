@@ -61,24 +61,33 @@ export const CounterList = () => {
   }, [importCounters]);
 
   return (
-    <section className="px-10 pb-10">
-      <header className="flex items-center gap-8">
+    <section className="px-4 pb-10 sm:px-10">
+      <header className="flex flex-col gap-8 py-12 sm:flex-row sm:items-center sm:py-0">
         <h1
           className={heading({
-            className: "mr-auto",
-            size: "medium",
-            tall: true,
+            className: "mr-auto sm:flex sm:h-32 sm:items-center",
           })}
         >
-          Lista liczników
+          Twoje liczniki
         </h1>
-        <Button icon={MdDownload} onClick={handleExport} variant="secondary">
-          Eksportuj
-        </Button>
-        <Button icon={MdUpload} onClick={handleImportClick} variant="secondary">
-          Importuj
-          <input className="hidden" ref={inputRef} type="file" />
-        </Button>
+        <div className="flex items-center gap-8 sm:ml-auto">
+          <Button icon={MdDownload} onClick={handleExport} variant="secondary">
+            Eksportuj
+          </Button>
+          <Button
+            icon={MdUpload}
+            onClick={handleImportClick}
+            variant="secondary"
+          >
+            Importuj
+            <input
+              accept="application/json"
+              className="hidden"
+              ref={inputRef}
+              type="file"
+            />
+          </Button>
+        </div>
       </header>
       <ul>
         {counters.map((counter) => (

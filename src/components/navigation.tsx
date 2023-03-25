@@ -48,10 +48,10 @@ export const Navigation = () => {
         <Popover.Overlay className="fixed bottom-0 left-0 right-0 top-16 z-navigation bg-gray-100/80 backdrop-blur dark:bg-gray-900/50 lg:top-32" />
         <Popover.Panel
           as="nav"
-          className="fixed bottom-0 left-0 right-0 top-16 z-navigation px-16 text-right text-2xl font-semibold text-gray-400 dark:text-gray-600 lg:top-32 lg:pr-32 lg:text-5xl"
+          className="fixed bottom-0 left-0 right-0 top-16 z-navigation flex flex-col justify-center px-5 text-2xl font-semibold text-gray-400 dark:text-gray-600 lg:top-32 lg:px-32 lg:text-right lg:text-5xl"
         >
-          <ul className="flex flex-col gap-8 pt-16 lg:pt-32">
-            <li>
+          <ul className="flex flex-col divide-y divide-gray-300 dark:divide-gray-800 lg:gap-8 lg:divide-none">
+            <li className="py-4 lg:p-0">
               <Popover.Button
                 className={navigationButton}
                 onClick={() => setView("counter")}
@@ -59,7 +59,7 @@ export const Navigation = () => {
                 Licznik
               </Popover.Button>
             </li>
-            <li>
+            <li className="py-4 lg:p-0">
               <Popover.Button
                 className={navigationButton}
                 onClick={() => setView("list")}
@@ -67,7 +67,7 @@ export const Navigation = () => {
                 Lista
               </Popover.Button>
             </li>
-            <li>
+            <li className="py-4 lg:p-0">
               <Popover.Button
                 className={navigationButton}
                 onClick={() => setView("create")}
@@ -75,9 +75,7 @@ export const Navigation = () => {
                 Nowy
               </Popover.Button>
             </li>
-          </ul>
-          <ul className="mt-8 flex flex-col gap-8 border-t border-gray-300 pt-8 dark:border-gray-800">
-            <li>
+            <li className="py-4 lg:p-0">
               <button
                 className={navigationButton}
                 onClick={() =>

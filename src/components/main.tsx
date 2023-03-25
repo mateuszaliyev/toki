@@ -8,7 +8,7 @@ export const Main = () => {
   const { view } = useView();
 
   return (
-    <main className="mt-16 flex flex-grow flex-col lg:mt-32">
+    <main className="mt-16 flex grow flex-col lg:mt-32">
       {view === "create" && <CounterForm />}
       {view === "counter" && <CounterView />}
       {view === "edit" && <CounterForm editSelected />}

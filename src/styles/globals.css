@@ -26,6 +26,7 @@
   }
 
   ::-webkit-scrollbar {
+    height: theme("spacing[2.5]");
     width: theme("spacing[2.5]");
   }
 
