@@ -1,3 +1,8 @@
+import { useMemo } from "react";
+import { VscHeartFilled } from "react-icons/vsc";
+
+import { useTheme } from "next-themes";
+
 import { ListItem } from "@/components/list/item";
 
 import { useCounter } from "@/hooks/counter";
@@ -14,7 +19,20 @@ import { MilestoneProgress } from "./milestone-progress";
 export const CounterView = () => {
   const counter = useCounter();
 
+  const milestones = useMemo(
+    () => ({
+      completed: counter?.milestones.filter(
+        ({ timestamp }) => timestamp < Date.now()
+      ),
+      pending: counter?.milestones
+        .filter(({ timestamp }) => timestamp > Date.now())
+        .sort((a, z) => (a.timestamp < z.timestamp ? -1 : 1)),
+    }),
+    [counter?.milestones]
+  );
+
   const largeScreen = useMediaQuery("(min-width: 1072px)");
+  const { theme } = useTheme();
 
   if (!counter) return null;
 
@@ -29,9 +47,18 @@ export const CounterView = () => {
       </section>
       <section className="grid grid-cols-1 gap-10 px-4 xl:grid-cols-2 xl:px-10">
         <div>
-          <h2 className={heading()}>Kamienie milowe</h2>
+          <div className="flex gap-2">
+            <h2 className={heading()}>Kamienie milowe</h2>
+            {theme === "pink" && (
+              <div className="flex grow items-center overflow-x-hidden">
+                {milestones.completed?.map((milestone) => (
+                  <VscHeartFilled className="h-6 w-6" key={milestone.id} />
+                ))}
+              </div>
+            )}
+          </div>
           <ul className="py-10">
-            {counter.milestones.map((milestone) => (
+            {milestones.pending?.map((milestone) => (
               <ListItem
                 borders={largeScreen ? "all" : "vertical"}
                 className="group flex flex-col gap-8"
@@ -42,6 +69,7 @@ export const CounterView = () => {
                     className={heading({
                       className: "truncate",
                     })}
+                    id={milestone.id}
                   >
                     {milestone.name}
                   </h3>
@@ -60,6 +88,7 @@ export const CounterView = () => {
                 </div>
                 <Counter size="small" timestamp={milestone.timestamp} />
                 <MilestoneProgress
+                  aria-labelledby={milestone.id}
                   milestone={milestone}
                   timestamp={counter.timestamp}
                 />
