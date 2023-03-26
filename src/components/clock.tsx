@@ -4,12 +4,19 @@ import { useInterval } from "@/hooks/interval";
 
 import { formatDate } from "@/i18n/polish";
 
-export type ClockProps = Omit<TimeHTMLAttributes<HTMLTimeElement>, "children">;
+export type ClockProps = Omit<
+  TimeHTMLAttributes<HTMLTimeElement>,
+  "children" | "dateTime"
+>;
 
 export const Clock = (props: ClockProps) => {
-  const [clock, setClock] = useState(formatDate(new Date(), "long"));
+  const [date, setDate] = useState(new Date());
 
-  useInterval(() => setClock(formatDate(new Date(), "long")), 1000);
+  useInterval(() => setDate(new Date()), 1000);
 
-  return <time {...props}>{clock}</time>;
+  return (
+    <time dateTime={date.toISOString()} {...props}>
+      {formatDate(new Date(), "long")}
+    </time>
+  );
 };

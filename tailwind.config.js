@@ -1,11 +1,16 @@
 const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 const tailwindCssConfig = {
   content: ["./src/**/*.{ts,tsx}"],
   darkMode: "class",
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant("pink", ".pink &");
+    }),
+  ],
   theme: {
     colors: {
       ...colors,
@@ -24,6 +29,7 @@ const tailwindCssConfig = {
       },
       fontFamily: {
         sans: ["var(--font-supreme)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-bio-rhyme)", ...defaultTheme.fontFamily.serif],
       },
       keyframes: {
         "fade-in": {

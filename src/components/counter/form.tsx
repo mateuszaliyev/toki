@@ -40,7 +40,7 @@ const counterDateSchema = z
 
 const counterNameSchema = z
   .string()
-  .max(36, "Nazwa jest zbyt długa.")
+  .max(31, "Nazwa jest zbyt długa.")
   .min(1, "Nazwa jest wymagana.");
 
 const counterFormSchema = z.object({
@@ -149,12 +149,12 @@ export const CounterForm = <EditSelected extends boolean>({
 
   return (
     <form
-      className="flex flex-grow flex-col pb-10"
+      className="flex grow flex-col pb-10"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex h-20 items-center justify-between border-b border-gray-300 dark:border-gray-800">
         <Button
-          className="relative h-full border-r border-gray-300 px-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gray-900/0 after:transition hover:after:bg-gray-900 dark:border-gray-800 dark:after:bg-gray-100/0 dark:hover:after:bg-gray-100"
+          className="relative h-full border-r border-gray-300 px-10 outline-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gray-900/0 after:transition hover:after:bg-gray-900 focus-visible:after:bg-gray-900 dark:border-gray-800 dark:after:bg-gray-100/0 dark:hover:after:bg-gray-100 dark:focus-visible:after:bg-gray-100"
           disabled={Boolean(errors.name) || Boolean(errors.date)}
           icon={MdCancel}
           onClick={() => {
@@ -165,7 +165,7 @@ export const CounterForm = <EditSelected extends boolean>({
           Anuluj
         </Button>
         <Button
-          className="relative h-full border-l border-gray-300 px-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gray-900/0 after:transition hover:after:bg-gray-900 dark:border-gray-800 dark:after:bg-gray-100/0 dark:hover:after:bg-gray-100"
+          className="relative h-full border-l border-gray-300 px-10 outline-none after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gray-900/0 after:transition hover:after:bg-gray-900 focus-visible:after:bg-gray-900 dark:border-gray-800 dark:after:bg-gray-100/0 dark:hover:after:bg-gray-100 dark:focus-visible:after:bg-gray-100"
           icon={MdSave}
         >
           Zapisz
@@ -173,14 +173,33 @@ export const CounterForm = <EditSelected extends boolean>({
       </div>
       <div className="px-10">
         <div className="flex items-center gap-8">
-          <h1 className={heading({ size: "large", tall: true })}>
+          <h1
+            className={heading({
+              className: "truncate lg:hidden",
+              tall: true,
+            })}
+          >
             {counterName || (editSelected ? "Edytuj licznik" : "Nowy licznik")}
           </h1>
-          <time>{formatDate(new Date(counterDate), "long")}</time>
+          <h1
+            className={heading({
+              className: "hidden truncate lg:block",
+              size: "large",
+              tall: true,
+            })}
+          >
+            {counterName || (editSelected ? "Edytuj licznik" : "Nowy licznik")}
+          </h1>
+          <time
+            className="hidden whitespace-nowrap sm:block"
+            dateTime={new Date(counterDate).toISOString()}
+          >
+            {formatDate(new Date(counterDate), "long")}
+          </time>
         </div>
         <div className="flex flex-col gap-4">
-          <section className="flex">
-            <label className="w-full">
+          <section className="flex flex-col md:flex-row">
+            <label className="grow">
               <Input
                 error={errors.name?.message}
                 icon={MdTextFields}
@@ -190,7 +209,7 @@ export const CounterForm = <EditSelected extends boolean>({
                 {...register("name")}
               />
             </label>
-            <label className="w-full">
+            <label className="grow">
               <Input
                 error={errors.date?.message}
                 icon={MdSchedule}
@@ -202,7 +221,7 @@ export const CounterForm = <EditSelected extends boolean>({
           </section>
           <section className="flex flex-col gap-8">
             <header className="flex justify-between">
-              <h2 className={heading({ size: "medium", tall: true })}>
+              <h2 className={heading({ className: "truncate", tall: true })}>
                 Powiązane wartości
               </h2>
               <Button
@@ -224,16 +243,20 @@ export const CounterForm = <EditSelected extends boolean>({
             <ul className="flex flex-col">
               {figures.fields.map((figure, index) => (
                 <ListItem
-                  borders="vertical"
+                  borders="all"
                   className="flex flex-col gap-8"
                   key={figure.id}
                 >
-                  <div className="flex items-center gap-8">
-                    <h3 className="mr-auto text-4xl">
+                  <div className="hidden items-center gap-8 lg:flex">
+                    <h3
+                      className={heading({
+                        className: "truncate",
+                      })}
+                    >
                       {figuresValues[index].name || "Nowa powiązana wartość"}
                     </h3>
                     <Button
-                      className="text-red-500 hover:text-current"
+                      className="ml-auto text-red-500 hover:text-current focus-visible:text-current"
                       icon={MdDelete}
                       onClick={() => figures.remove(index)}
                       type="button"
@@ -241,8 +264,8 @@ export const CounterForm = <EditSelected extends boolean>({
                       Usuń
                     </Button>
                   </div>
-                  <div className="flex">
-                    <label className="w-full">
+                  <div className="flex flex-col lg:flex-row">
+                    <label className="basis-1/2">
                       <Input
                         error={errors?.figures?.[index]?.name?.message}
                         icon={MdTextFields}
@@ -252,54 +275,58 @@ export const CounterForm = <EditSelected extends boolean>({
                         {...register(`figures.${index}.name`)}
                       />
                     </label>
-                    <label className="w-full">
-                      <Input
-                        error={errors?.figures?.[index]?.quantity?.message}
-                        icon={MdStraighten}
-                        placeholder="Ilość"
-                        required
-                        type="number"
-                        {...register(`figures.${index}.quantity`, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                    </label>
-                    <label className="w-full">
-                      <Input
-                        error={errors?.figures?.[index]?.value?.message}
-                        icon={MdTimer}
-                        placeholder="Przedział czasu"
-                        required
-                        type="number"
-                        {...register(`figures.${index}.value`, {
-                          valueAsNumber: true,
-                        })}
-                      />
-                    </label>
-                    <Controller
-                      control={control}
-                      name={`figures.${index}.unit`}
-                      render={({ field }) => (
-                        <Select
-                          className="w-full"
-                          disabled={!figuresValues[index].value}
-                          onChange={(option) => field.onChange(option.value)}
-                          options={UNITS.map((unit) => ({
-                            name: dateFormatters[unit](
-                              figuresValues[index].value
-                            ),
-                            value: unit,
-                          }))}
-                          value={{
-                            name: dateFormatters[field.value](
-                              figuresValues[index].value
-                            ),
-                            value: field.value,
-                          }}
+                    <div className="grid basis-1/2 grid-cols-3">
+                      <label>
+                        <Input
+                          error={errors?.figures?.[index]?.quantity?.message}
+                          icon={MdStraighten}
+                          placeholder="Ilość"
+                          required
+                          type="number"
+                          {...register(`figures.${index}.quantity`, {
+                            valueAsNumber: true,
+                          })}
                         />
-                      )}
-                    />
-                    <input type="hidden" {...register(`figures.${index}.id`)} />
+                      </label>
+                      <label>
+                        <Input
+                          error={errors?.figures?.[index]?.value?.message}
+                          icon={MdTimer}
+                          placeholder="Przedział czasu"
+                          required
+                          type="number"
+                          {...register(`figures.${index}.value`, {
+                            valueAsNumber: true,
+                          })}
+                        />
+                      </label>
+                      <Controller
+                        control={control}
+                        name={`figures.${index}.unit`}
+                        render={({ field }) => (
+                          <Select
+                            disabled={!figuresValues[index].value}
+                            onChange={(option) => field.onChange(option.value)}
+                            options={UNITS.map((unit) => ({
+                              name: dateFormatters[unit](
+                                figuresValues[index].value
+                              ),
+                              value: unit,
+                            }))}
+                            value={{
+                              name: dateFormatters[field.value](
+                                figuresValues[index].value
+                              ),
+                              value: field.value,
+                            }}
+                          />
+                        )}
+                      />
+                      <input
+                        type="hidden"
+                        {...register(`figures.${index}.id`)}
+                      />
+                    </div>
                   </div>
                 </ListItem>
               ))}
@@ -307,7 +334,7 @@ export const CounterForm = <EditSelected extends boolean>({
           </section>
           <section className="flex flex-col gap-8">
             <header className="flex justify-between">
-              <h2 className={heading({ size: "medium", tall: true })}>
+              <h2 className={heading({ className: "truncate", tall: true })}>
                 Kamienie milowe
               </h2>
               <Button
@@ -329,22 +356,42 @@ export const CounterForm = <EditSelected extends boolean>({
             <ul className="flex flex-col">
               {milestones.fields.map((milestone, index) => (
                 <ListItem
-                  borders="vertical"
-                  className="flex flex-col gap-8"
+                  borders="all"
+                  className="group flex flex-col gap-8"
                   key={milestone.id}
                 >
-                  <div className="flex items-center gap-8">
-                    <h3 className="text-4xl">
+                  <div className="hidden items-center gap-8 lg:flex">
+                    <h3
+                      className={heading({
+                        className: "truncate",
+                      })}
+                    >
                       {milestonesValues[index].name || "Nowy kamień milowy"}
                     </h3>
-                    <time className="mr-auto">
+                    <time
+                      className="mr-auto hidden whitespace-nowrap text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 lg:block"
+                      dateTime={new Date(
+                        milestonesValues[index].date
+                      ).toISOString()}
+                    >
                       {formatDate(
                         new Date(milestonesValues[index].date),
                         "long"
                       )}
                     </time>
+                    <time
+                      className="mr-auto whitespace-nowrap text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 lg:hidden"
+                      dateTime={new Date(
+                        milestonesValues[index].date
+                      ).toISOString()}
+                    >
+                      {formatDate(
+                        new Date(milestonesValues[index].date),
+                        "short"
+                      )}
+                    </time>
                     <Button
-                      className="text-red-500 hover:text-current"
+                      className="text-red-500 hover:text-current focus-visible:text-current"
                       icon={MdDelete}
                       onClick={() => milestones.remove(index)}
                       type="button"
@@ -352,8 +399,8 @@ export const CounterForm = <EditSelected extends boolean>({
                       Usuń
                     </Button>
                   </div>
-                  <div className="flex">
-                    <label className="w-full">
+                  <div className="flex flex-col md:flex-row">
+                    <label className="grow">
                       <Input
                         error={errors?.milestones?.[index]?.name?.message}
                         icon={MdTextFields}
@@ -363,7 +410,7 @@ export const CounterForm = <EditSelected extends boolean>({
                         {...register(`milestones.${index}.name`)}
                       />
                     </label>
-                    <label className="w-full">
+                    <label className="grow">
                       <Input
                         error={errors?.milestones?.[index]?.date?.message}
                         icon={MdSchedule}

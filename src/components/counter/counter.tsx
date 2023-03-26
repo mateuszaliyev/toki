@@ -1,4 +1,4 @@
-import type { TimeHTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 
 import { useDuration } from "@/hooks/duration";
 
@@ -10,7 +10,7 @@ import { cx } from "@/utilities/cx";
 
 import { CounterSegment, type CounterSegmentProps } from "./segment";
 
-export type CounterProps = TimeHTMLAttributes<HTMLTimeElement> & {
+export type CounterProps = HTMLAttributes<HTMLDivElement> & {
   bordered?: CounterSegmentProps["bordered"];
   size?: CounterSegmentProps["size"];
   timestamp: number;
@@ -26,8 +26,11 @@ export const Counter = ({
   const duration = useDuration(timestamp);
 
   return (
-    <time
-      className={cx("flex items-center justify-center gap-4", className)}
+    <div
+      className={cx(
+        "grid grid-cols-3 items-center justify-center justify-items-center gap-4 sm:flex",
+        className
+      )}
       {...props}
     >
       {Object.entries(duration).map(([key, value]) => (
@@ -42,6 +45,6 @@ export const Counter = ({
           {value}
         </CounterSegment>
       ))}
-    </time>
+    </div>
   );
 };

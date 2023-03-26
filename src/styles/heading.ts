@@ -1,6 +1,18 @@
 import { cva } from "class-variance-authority";
 
-export const heading = cva("flex items-center font-semibold", {
+export const heading = cva("font-semibold", {
+  compoundVariants: [
+    {
+      className: "py-10",
+      size: "large",
+      tall: true,
+    },
+    {
+      className: "py-12",
+      size: "medium",
+      tall: true,
+    },
+  ],
   defaultVariants: {
     size: "medium",
   },
@@ -10,8 +22,7 @@ export const heading = cva("flex items-center font-semibold", {
       medium: "text-2xl",
     },
     tall: {
-      false: "",
-      true: "h-32",
+      true: "",
     },
   },
 });

@@ -13,7 +13,7 @@ export type ListItemProps = LiHTMLAttributes<HTMLLIElement> &
   };
 
 const listItem = cva(
-  "relative -mt-px border-gray-300 p-10 after:pointer-events-none after:absolute after:-inset-px after:z-list-item after:transition dark:border-gray-800",
+  "relative -mt-px border-gray-300 after:pointer-events-none after:absolute after:-inset-px after:z-list-item after:transition dark:border-gray-800",
   {
     defaultVariants: {
       active: false,
@@ -25,8 +25,8 @@ const listItem = cva(
         true: "after:border-gray-900 dark:after:border-gray-100",
       },
       borders: {
-        all: "border after:border",
-        vertical: "border-y after:border-y",
+        all: "border p-5 after:border lg:p-10",
+        vertical: "border-y py-5 after:border-y lg:py-10",
       },
     },
   }

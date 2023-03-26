@@ -47,10 +47,6 @@ export const MilestoneProgress = ({
   );
 
   return (
-    <Progress
-      className={cx("flex-grow", className)}
-      value={progress}
-      {...props}
-    />
+    <Progress className={cx("grow", className)} value={progress} {...props} />
   );
 };
