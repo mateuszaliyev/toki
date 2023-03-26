@@ -1,52 +1,46 @@
 import { useState } from "react";
 
-import { Progress, type ProgressProps } from "@/components/progress";
+import { useTheme } from "next-themes";
+
+import { ProgressHeart } from "@/components/progress/heart";
+import {
+  ProgressLinear,
+  type ProgressLinearProps,
+} from "@/components/progress/linear";
 
 import { useInterval } from "@/hooks/interval";
 
 import type { Milestone as MilestoneType } from "@/types";
 
-import { cx } from "@/utilities/cx";
+import { clamp, getPercentage, toFixed } from "@/utilities/number";
 
-export type MilestoneProps = Omit<ProgressProps, "value"> & {
+export type MilestoneProps = Omit<ProgressLinearProps, "value"> & {
   milestone: MilestoneType;
   timestamp: number;
 };
 
-const getProgress = (from: number, to: number, value: number) =>
-  from === to ? 0 : (value - from) / (to - from);
+const getProgress = (...parameters: Parameters<typeof getPercentage>) =>
+  toFixed(clamp(0, 100 * getPercentage(...parameters), 100), 2);
 
 export const MilestoneProgress = ({
-  className,
   milestone,
   timestamp,
   ...props
 }: MilestoneProps) => {
   const [progress, setProgress] = useState(
-    Math.max(
-      Math.min(
-        100 * getProgress(timestamp, milestone.timestamp, Date.now()),
-        100
-      ),
-      0
-    )
+    getProgress(timestamp, milestone.timestamp, Date.now())
   );
 
+  const { theme } = useTheme();
+
   useInterval(
-    () =>
-      setProgress(
-        Math.max(
-          Math.min(
-            100 * getProgress(timestamp, milestone.timestamp, Date.now()),
-            100
-          ),
-          0
-        )
-      ),
+    () => setProgress(getProgress(timestamp, milestone.timestamp, Date.now())),
     1000
   );
 
-  return (
-    <Progress className={cx("grow", className)} value={progress} {...props} />
+  return theme === "pink" ? (
+    <ProgressHeart value={progress} {...props} />
+  ) : (
+    <ProgressLinear value={progress} {...props} />
   );
 };

@@ -25,7 +25,10 @@ import { dateFormatters, formatDate } from "@/i18n/polish";
 
 import { heading } from "@/styles/heading";
 
-import { toDatetimeLocalString } from "@/utilities/datetime-local";
+import {
+  safeParseDateFromString,
+  toDatetimeLocalString,
+} from "@/utilities/date";
 import { UNITS } from "@/utilities/units";
 
 export type CounterFormProps<EditSelected extends boolean> = {
@@ -192,7 +195,7 @@ export const CounterForm = <EditSelected extends boolean>({
           </h1>
           <time
             className="hidden whitespace-nowrap sm:block"
-            dateTime={new Date(counterDate).toISOString()}
+            dateTime={safeParseDateFromString(counterDate)?.toISOString()}
           >
             {formatDate(new Date(counterDate), "long")}
           </time>
@@ -370,9 +373,9 @@ export const CounterForm = <EditSelected extends boolean>({
                     </h3>
                     <time
                       className="mr-auto hidden whitespace-nowrap text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 lg:block"
-                      dateTime={new Date(
+                      dateTime={safeParseDateFromString(
                         milestonesValues[index].date
-                      ).toISOString()}
+                      )?.toISOString()}
                     >
                       {formatDate(
                         new Date(milestonesValues[index].date),
@@ -381,9 +384,9 @@ export const CounterForm = <EditSelected extends boolean>({
                     </time>
                     <time
                       className="mr-auto whitespace-nowrap text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 lg:hidden"
-                      dateTime={new Date(
+                      dateTime={safeParseDateFromString(
                         milestonesValues[index].date
-                      ).toISOString()}
+                      )?.toISOString()}
                     >
                       {formatDate(
                         new Date(milestonesValues[index].date),

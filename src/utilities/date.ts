@@ -1,3 +1,8 @@
+export const safeParseDateFromString = (value: string) => {
+  const date = new Date(value);
+  return !isNaN(date.getTime()) ? date : undefined;
+};
+
 export const toDatetimeLocalString = (date: Date) => {
   const year = date.getFullYear().toString().padStart(4, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
