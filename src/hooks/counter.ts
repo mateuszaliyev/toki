@@ -16,6 +16,10 @@ export type CounterStore = {
   ) => void;
   deleteCounter: (id: string) => void;
   getCounter: (id?: string) => Counter | undefined;
+  getMilestones: (
+    status: CounterStoreMilestoneStatus,
+    id?: string
+  ) => Milestone[];
   importCounters: <Version extends CounterStoreStorageVersion | unknown>(
     storage: CounterStoreStorage<Version>
   ) => void;
@@ -29,6 +33,8 @@ export type CounterStore = {
       }
   ) => void;
 };
+
+export type CounterStoreMilestoneStatus = "completed" | "pending";
 
 export type CounterStoreStorage<
   Version extends CounterStoreStorageVersion | unknown = unknown
@@ -126,6 +132,21 @@ export const useCounterStore = create<CounterStore>()(
         get().counters.find(
           (counter) => counter.id === (id ?? get().selectedCounter)
         ),
+      getMilestones: (status, id) => {
+        const counter = get().getCounter(id);
+
+        if (!counter) return [];
+
+        if (status === "completed") {
+          return counter.milestones.filter(
+            ({ timestamp }) => timestamp < Date.now()
+          );
+        }
+
+        return counter?.milestones
+          .filter(({ timestamp }) => timestamp > Date.now())
+          .sort((a, z) => (a.timestamp < z.timestamp ? -1 : 1));
+      },
       importCounters: (storage) =>
         set((state) => {
           if (isVersion(storage, 0)) {
@@ -246,7 +267,17 @@ export const useCounterStore = create<CounterStore>()(
 );
 
 export const useCounter = (id?: string) =>
-  useCounterStore(({ getCounter }) => getCounter(id));
+  useCounterStore(({ getCounter, getMilestones }) => {
+    const counter = getCounter(id);
+
+    if (!counter) return;
+
+    return {
+      ...counter,
+      getMilestones: (status: CounterStoreMilestoneStatus) =>
+        getMilestones(status, id),
+    };
+  });
 
 export const useCounterActions = () =>
   useCounterStore(
