@@ -4,6 +4,7 @@ import { VscHeartFilled } from "react-icons/vsc";
 import { useTheme } from "next-themes";
 
 import { ListItem } from "@/components/list/item";
+import { Tooltip } from "@/components/tooltip";
 
 import { useCounter } from "@/hooks/counter";
 import { useInterval } from "@/hooks/interval";
@@ -18,12 +19,13 @@ import type { Milestone } from "@/types";
 import { Counter } from "./counter";
 import { MilestoneProgress } from "./milestone-progress";
 
-export const CounterMilestones = () => {
+export const Milestones = () => {
   const counter = useCounter();
 
   const [completed, setCompleted] = useState<Milestone[]>(
     counter?.getMilestones("completed") ?? []
   );
+
   const [pending, setPending] = useState<Milestone[]>(
     counter?.getMilestones("pending") ?? []
   );
@@ -41,14 +43,19 @@ export const CounterMilestones = () => {
 
   return (
     <div>
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <h2 className={heading()}>Kamienie milowe</h2>
         {theme === "pink" && (
-          <div className="flex grow items-center overflow-x-hidden">
+          <ul className="flex grow items-center overflow-x-auto">
             {completed.map((milestone) => (
-              <VscHeartFilled className="h-6 w-6" key={milestone.id} />
+              <Tooltip
+                key={milestone.id}
+                trigger={<VscHeartFilled className="h-6 w-6" />}
+              >
+                {milestone.name}
+              </Tooltip>
             ))}
-          </div>
+          </ul>
         )}
       </div>
       <ul className="py-10">

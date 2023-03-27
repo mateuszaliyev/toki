@@ -9,7 +9,7 @@ import { heading } from "@/styles/heading";
 
 import { Counter } from "./counter";
 import { Figure } from "./figure";
-import { CounterMilestones } from "./milestones";
+import { Milestones } from "./milestones";
 
 export const CounterView = () => {
   const counter = useCounter();
@@ -28,7 +28,7 @@ export const CounterView = () => {
         />
       </section>
       <section className="grid grid-cols-1 gap-10 px-4 xl:grid-cols-2 xl:px-10">
-        <CounterMilestones />
+        <Milestones />
         <div>
           <h2 className={heading({ size: "medium" })}>Powiązane wartości</h2>
           <ul className="py-10">
