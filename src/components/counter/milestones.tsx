@@ -65,7 +65,7 @@ export const Milestones = () => {
             className="group flex flex-col gap-8"
             key={milestone.id}
           >
-            <div className="flex items-center gap-8 whitespace-nowrap">
+            <div className="flex flex-wrap items-center gap-8 whitespace-nowrap sm:flex-row">
               <h3
                 className={heading({
                   className: "truncate",

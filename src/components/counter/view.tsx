@@ -27,7 +27,7 @@ export const CounterView = () => {
           timestamp={counter.timestamp}
         />
       </section>
-      <section className="grid grid-cols-1 gap-10 px-4 xl:grid-cols-2 xl:px-10">
+      <section className="flex flex-col-reverse gap-10 px-4 xl:grid xl:grid-cols-2 xl:px-10">
         <Milestones />
         <div>
           <h2 className={heading({ size: "medium" })}>Powiązane wartości</h2>
@@ -35,17 +35,17 @@ export const CounterView = () => {
             {counter.figures.map((figure) => (
               <ListItem
                 borders="vertical"
-                className="group flex items-center gap-8 text-2xl lg:text-4xl"
+                className="group flex flex-wrap items-center justify-between gap-8 text-2xl lg:text-4xl xl:flex-nowrap"
                 key={figure.id}
               >
                 <h3 className="truncate">{figure.name}</h3>
-                <span className="hidden whitespace-nowrap text-base text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 sm:flex">
+                <span className="mr-auto hidden whitespace-nowrap text-base text-gray-400 transition group-hover:text-gray-900 dark:text-gray-600 dark:group-hover:text-gray-100 sm:flex">
                   {figure.quantity} co {figure.value}{" "}
                   {dateFormatters[figure.unit](figure.value).toLocaleLowerCase(
                     POLISH_LOCALE
                   )}
                 </span>
-                <span className="ml-auto">
+                <span className="xl:ml-auto">
                   <Figure figure={figure} timestamp={counter.timestamp} />
                 </span>
               </ListItem>
